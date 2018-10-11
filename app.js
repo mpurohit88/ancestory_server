@@ -11,7 +11,7 @@ var bodyParser=require('body-parser');
 var mainroute= require('./routes/main');
 
 var app = express();
-app.use(express.static(path.join('public')));
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('port', process.env.PORT || 8084);
 app.listen(8084);
 app.use(bodyParser());
@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
  app.get('/*', function(req, res) {
-     res.sendFile(path.join(_dirname, 'public', 'index.html'));
+     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // app.use('/register',loginRouter);
