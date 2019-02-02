@@ -1,7 +1,7 @@
 var mysql = require('mysql')
-function dbconnect()
-{
-  var pool =mysql.createPool({
+// function dbconnect()
+// {
+  var connectionPool =mysql.createPool({
     
     host:'remotemysql.com',
     user     : 'qnPasv2Msw',
@@ -14,8 +14,8 @@ function dbconnect()
 //   console.log(connection.threadId);
 // })
 
-  return pool; 
-}
+//   return pool; 
+// }
 // function dbconnect(){
 //     var connection = mysql.createConnection({
 //       host     : 'localhost',
@@ -44,6 +44,15 @@ function dbconnect()
     }
     return mysql.format(query, parameters);
   }
+
+
+// const config = require("../config/db.json");
+// let connectionPool = MySQL.createPool({host: dbOptions.host, user: dbOptions.user, password: dbOptions.password, port: dbOptions.port, database: dbOptions.database});
+
+const dbconnect = function(done){
+  connectionPool.getConnection(done);
+};
+
   module.exports= {
     dbconnect: dbconnect,
   prepareQuery: prepareQuery
