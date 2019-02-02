@@ -214,7 +214,7 @@ var trans= require('../config/mailtransport');
   router.post("/addreq",upload.single('selectedFile'),async (req,res)=>{
 
 var data=JSON.parse(req.body.data)
-console.log(req.file)
+console.log("6656556", req.file)
 if(!req.file)
     {
        res.status(200).send({msg:"imagenot"});
@@ -239,7 +239,7 @@ if(!req.file)
  
     var mail = {
       from: 'pvanshavali@gmail.com',
-      to: 'rishabhverma2088@gmail.com',  //Change to email address that you want to receive messages on
+      to: 'mpurohit88@gmail.com',  //Change to email address that you want to receive messages on
       subject: 'New Request for adding name to graph ',
       attachments: [  
         {   
