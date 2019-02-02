@@ -14,7 +14,7 @@ function getUseByName(emailId) {
     //     }
     //   }
     // );
-    dbconnect().getConnection(function(err,connection){
+    dbconnect(function(err,connection){
       if(err) throw err; //not connected!
 
       if(connection) {console.log('connected');
@@ -55,7 +55,7 @@ console.log(rows)
        
     //   }
     // });
-    dbconnect().getConnection(function(err,connection){
+    dbconnect(function(err,connection){
       if(err) throw err; //not connected!
 
       if(connection){ console.log('connected');

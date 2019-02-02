@@ -15,7 +15,7 @@ const {dbconnect} = require('./mysqlConnect');
       // });
       let querys= 'SELECT parent.name AS pname,parent.parent as mainpid,child.name as childname, child.parent as childpid,child.lineage as line, child.id as childid FROM tree parent JOIN tree child ON parent.id=child.parent  WHERE parent.name="'
                    +gfname+'"  && parent.sid = "'+sid+'"  && parent.lineage ="'+lineage+'" && child.name="'+fname+'"';
-      dbconnect().getConnection(function(err,connection){
+      dbconnect(function(err,connection){
         if(err) throw err; //not connected!
 
         if(connection) console.log('connected', connection.threadId);

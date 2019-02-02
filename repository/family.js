@@ -13,7 +13,7 @@ function getAllData(){
         //     reject('error');
         //   }
         // });
-        dbconnect().getConnection(function(err,connection){
+        dbconnect(function(err,connection){
           if(err) throw err; //not connected!
   
           if(connection) console.log('connected', connection.threadId);
@@ -47,7 +47,7 @@ function getCultureData(){
     //     reject('error');
     //   }
     // });
-    dbconnect().getConnection(function(err,connection){
+    dbconnect(function(err,connection){
       if(err) throw err; //not connected!
 
       if(connection) console.log('connected');
@@ -75,7 +75,7 @@ function postSaveData(){
     //     else
     //     console.log('try again');
     // });
-    dbconnect().getConnection(function(err,connection){
+    dbconnect(function(err,connection){
       if(err) throw err; //not connected!
 
       if(connection) console.log('connected');
