@@ -1,6 +1,7 @@
 const {dbconnect} = require('./mysqlConnect');
 
 
+
 function getAllData(){
     return new Promise((resolve, reject) => {
         // dbconnect().query('SELECT * from user ', function(err, rows, fields) {
@@ -13,7 +14,9 @@ function getAllData(){
         //     reject('error');
         //   }
         // });
+
         dbconnect(function(err,connection){
+
           if(err) throw err; //not connected!
   
           if(connection) console.log('connected', connection.threadId);

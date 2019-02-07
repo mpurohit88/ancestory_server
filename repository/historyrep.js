@@ -18,7 +18,9 @@ const {dbconnect} = require('./mysqlConnect');
       //     reject('error');
       //   }
       // });
+
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection) console.log('connected', connection.threadId);

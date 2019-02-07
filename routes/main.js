@@ -3,13 +3,14 @@ var fs = require('file-system');
 var router = express.Router();
 const nodemailer = require('nodemailer');
 const multer=require('multer');
+
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
    
-    callback(null, './upload/');
+    callback(null, './public/upload/');
   },
   filename: function (req, file, callback) {
-  console.log(file)
+
     if(file.mimetype==="image/jpeg" || file.mimetype==="image/jpg")
     {
     callback(null,  Date.now()+file.originalname);
@@ -52,9 +53,10 @@ var trans= require('../config/mailtransport');
   router.get('/culture',async function(req, res, next) {
     try{
 
-     let y=await getCultureData().then(
+     await getCultureData().then(
        result=> 
-       res.send(JSON.stringify(result))
+      
+       res.json(result)
       );  
     }
     catch(error){
@@ -85,12 +87,13 @@ var trans= require('../config/mailtransport');
       console.log("Error.....", error);
     }
   });
-  router.get('/welcome',async function(req, res, next) {
+  router.get('/welcome', function(req, res, next) {
     try{
 
-     let y=await getWelcomeData().then(
+
+     getWelcomeData().then(
        result=> 
-       res.send(JSON.stringify(result))
+        res.status(200).send(result)
       );  
     }
     catch(error){
@@ -100,8 +103,8 @@ var trans= require('../config/mailtransport');
  
   router.post('/chart',async function(req, res, next) {
     try{
-     let id= req.body.id
-     console.log(id)
+     let id= JSON.parse(req.body.id)
+     console.log(req.body)
      let y=await getChartData(id).then(
        result=> 
        res.send(JSON.stringify(result))
@@ -139,6 +142,7 @@ var trans= require('../config/mailtransport');
 
   router.post('/searchtree',async function(req, res, next) {
     try{ 
+
       sid=req.body.surname;
       lineage=req.body.lineage;
       fname=req.body.fname;
@@ -146,9 +150,11 @@ var trans= require('../config/mailtransport');
     await  getsearchtree(fname,gfname,sid,lineage).then(function(result){
          if(result.length>0){
           res.status(200).send(JSON.stringify(result));
+          console.log(req.body)
         // res.send(JSON.stringify(result))
          }
         else{
+          console.log(req.body)
           res.status(200).send({er:1});
         }
        } 
@@ -173,13 +179,13 @@ var trans= require('../config/mailtransport');
       text: message
     }
   
-    trans().sendMail(mail, (error, info) => {
+    trans().sendMail(mail, (err, info) => {
       if (error) {
         return console.log(error);
-      } 
-      console.log('Message sent: %s', info.messageId);
-      // Preview only available when sending through an Ethereal account
-      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+    } 
+    console.log('Message sent: %s', info.messageId);
+    // Preview only available when sending through an Ethereal account
+    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     })
   });
 
@@ -211,16 +217,17 @@ var trans= require('../config/mailtransport');
     }
   });
 
-  router.post("/addreq",upload.single('selectedFile'),async (req,res)=>{
+  router.post("/addreq",upload.single('selectedFile'),(req,res)=>{
 
 var data=JSON.parse(req.body.data)
-console.log("6656556", req.file)
+
 if(!req.file)
     {
        res.status(200).send({msg:"imagenot"});
         
     }else
     {
+
       var surname=data.surname;
     
     var lineage=data.lineage;
@@ -239,12 +246,12 @@ if(!req.file)
  
     var mail = {
       from: 'pvanshavali@gmail.com',
-      to: 'mpurohit88@gmail.com',  //Change to email address that you want to receive messages on
+      to: 'rishabhverma2088@gmail.com',  //Change to email address that you want to receive messages on
       subject: 'New Request for adding name to graph ',
       attachments: [  
         {   
             filename: "identitycard.jpg",
-            path:'./upload/'+pic,
+            path:'./public/upload/'+pic,
              
             // content: fs.createReadStream(pic)
         }   ],
@@ -253,6 +260,7 @@ if(!req.file)
   
     trans().sendMail(mail, (err, info) => {
       if (err) {
+        console.log(err);
         res.status(200).send({msg:"fail"});
     } else
     {
@@ -266,52 +274,6 @@ if(!req.file)
   }//else closed
 
   });
-
-
- 
-       
-      
-       
-     
-
-    // console.log(req.body);
-    // var surname=req.body.sids;
-    // var lineage=req.body.lineage;
-    // var name=req.body.name;
-    // var fname=req.body.fname;
-    // var gfname=req.body.gfname;
-    // var dob=req.body.dob;
-    // var address=req.body.address;
-    // var phone=req.body.phone;
-    // var mobile=req.body.mobile;
-    // var wtsapno=req.body.wtsapno;
-    // var pic=req.body.pic;
-    
-    // var email=req.body.email;
-    // var content = `name: ${name} \n father name: ${fname} \n surname: ${surname} \n lineage: ${lineage} \n grand father name: ${gfname} \n dob: ${dob} \n address:${address} \n phone: ${phone} \n mobile: ${mobile} \n wtsapno: ${wtsapno} \n email: ${email} \n `
- 
-    // var mail = {
-    //   from: 'pvanshavali@gmail.com',
-    //   to: 'rishabhverma2088@gmail.com',  //Change to email address that you want to receive messages on
-    //   subject: 'New Request for adding name to graph ',
-    //   attachments: [  
-    //     {   
-    //         filename: "identitycard.jpg",
-    //         path:pic,
-             
-    //         // content: fs.createReadStream(pic)
-    //     }   ],
-    //   text: content
-    // }
-  
-    // trans().sendMail(mail, (err, info) => {
-    //   if (err) {
-    //     return console.log(err);
-    // } 
-    // console.log('Message sent: %s', info.messageId);
-    // // Preview only available when sending through an Ethereal account
-    // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
-    // })
   
 
   router.post('/add',async function(req, res, next) {
@@ -321,7 +283,7 @@ if(!req.file)
       dob=req.body.dob;
       sid=req.body.sid;
       lineage=req.body.lineage;
-     let y=await getadd(name,fid,dob,sid,lineage).then(
+     await getadd(name,fid,dob,sid,lineage).then(
        result=> 
        res.send(JSON.stringify(result))
       );  
@@ -333,8 +295,13 @@ if(!req.file)
   router.post('/edit',async function(req, res, next) {
     try{
       name=req.body.name;
-      id=req.body.mainid;
-     let y=await getedit(name,id).then(
+      id=req.body.id;
+      parent_id=req.body.mainid;
+      sid=req.body.sid;
+      lineage=req.body.lineage;
+  
+  
+     let y=await getedit(name,id,sid,lineage,parent_id).then(
        result=> 
        res.send(JSON.stringify(result))
       );  

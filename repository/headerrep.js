@@ -1,5 +1,6 @@
 const {dbconnect} = require('./mysqlConnect');
 
+
   function getsurname(){
     return new Promise((resolve,reject)=>{
       // dbconnect().query(
@@ -12,7 +13,9 @@ const {dbconnect} = require('./mysqlConnect');
       //     reject('error');
       //   }
       // });
+
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection)console.log('connected', connection.threadId);
@@ -47,7 +50,9 @@ const {dbconnect} = require('./mysqlConnect');
       //   }
       // });
       let querys='SELECT sn.sname AS sname,sn.id as id, ln.lname as lname,ln.sid as sid FROM surname sn LEFT JOIN lineage ln ON sn.id=ln.sid';
+
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection) console.log('connected');

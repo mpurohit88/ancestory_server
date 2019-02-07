@@ -1,5 +1,6 @@
 const {dbconnect} = require('./mysqlConnect');
 
+
   function getChartData(id){
     return new Promise((resolve,reject)=>{
       // dbconnect().query(
@@ -14,17 +15,22 @@ const {dbconnect} = require('./mysqlConnect');
       //     reject('error');
       //   }
       // });
+
+
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection) console.log('connected', connection.threadId);
         //use the connection and query
-        connection.query('select * from tree where lineage='+id+'', function(error,rows,fields){
+         let pid=1;
+        connection.query('select * from tree where lineage="'+id+'"', function(error,rows,fields){
          
           if(!error)
-          { 
+          {
             resolve(rows);
           }
+           console.log(id)
           connection.release();
           console.log('Process Complete %d',connection.threadId);
 
@@ -40,7 +46,10 @@ const {dbconnect} = require('./mysqlConnect');
   function headerSid(){
     return new Promise((resolve,reject)=>{
 
+
+
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection) console.log('connected', connection.threadId);

@@ -1,5 +1,6 @@
 const {dbconnect} = require('./mysqlConnect');
 
+
   function geteditsearch(fname,gfname,sid,lineage){
      
     return new Promise((resolve,reject)=>{
@@ -13,9 +14,14 @@ const {dbconnect} = require('./mysqlConnect');
       //     reject(err);
       //   }
       // });
-      let querys= 'SELECT parent.name AS pname,parent.parent as mainpid,child.name as childname, child.parent as childpid,child.lineage as line, child.id as childid FROM tree parent JOIN tree child ON parent.id=child.parent  WHERE parent.name="'
-                   +gfname+'"  && parent.sid = "'+sid+'"  && parent.lineage ="'+lineage+'" && child.name="'+fname+'"';
+
+      let querys= 'SELECT  DISTINCT(child.id),parent.name AS pname,parent.id as mainpid,child.name as childname, child.parent as childpid,child.lineage as line, child.id as childid,lineage.lname FROM tree parent JOIN tree child ON parent.id=child.parent JOIN lineage ON child.lineage = lineage.id  WHERE '+
+            '((parent.name="'+gfname+'" and child.name="'+fname+'" and child.lineage="'+lineage+'"))';
+
+      // let querys= 'SELECT parent.name AS pname,parent.parent as mainpid,child.name as childname, child.parent as childpid,child.lineage as line, child.id as childid FROM tree parent JOIN tree child ON parent.id=child.parent  WHERE parent.name="'
+      //              +gfname+'"  && parent.sid = "'+sid+'"  && parent.lineage ="'+lineage+'" && child.name="'+fname+'"';
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection) console.log('connected', connection.threadId);
@@ -23,8 +29,9 @@ const {dbconnect} = require('./mysqlConnect');
         connection.query(querys, function(error,rows,fields){
           if(!error)
           { 
+            
             resolve(rows);
-          }
+          }console.log(rows)
           connection.release();
           console.log('Process Complete %d',connection.threadId);
 

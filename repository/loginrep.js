@@ -1,4 +1,5 @@
-const { dbconnect, prepareQuery} = require('./mysqlConnect');
+const {dbconnect, prepareQuery} = require('./mysqlConnect');
+
 
 function getUseByName(emailId) {
 
@@ -14,7 +15,9 @@ function getUseByName(emailId) {
     //     }
     //   }
     // );
+
     dbconnect(function(err,connection){
+
       if(err) throw err; //not connected!
 
       if(connection) {console.log('connected');
@@ -55,7 +58,9 @@ console.log(rows)
        
     //   }
     // });
+
     dbconnect(function(err,connection){
+
       if(err) throw err; //not connected!
 
       if(connection){ console.log('connected');

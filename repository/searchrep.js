@@ -17,7 +17,9 @@ const {dbconnect} = require('./mysqlConnect');
       //     reject(err);
       //   }
       // });
+
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection) console.log('connected');
@@ -57,7 +59,9 @@ const {dbconnect} = require('./mysqlConnect');
     //         reject(err);
     //       }
     //     });
+
     dbconnect(function(err,connection){
+
       if(err) throw err; //not connected!
 let querys="select * from tree where sid='"+surname+"' and lineage='"+lineage+"'";
       if(connection) console.log('connected', connection.threadId);

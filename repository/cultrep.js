@@ -1,4 +1,5 @@
 const {dbconnect} = require('./mysqlConnect');
+
   function getCultureData(){
     return new Promise((resolve,reject)=>{
       // dbconnect().query('SELECT * from culture  ', function(err,rows,fields){
@@ -11,7 +12,9 @@ const {dbconnect} = require('./mysqlConnect');
       //     reject('error');
       //   }
       // });
+
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection) console.log('connected', connection.threadId);

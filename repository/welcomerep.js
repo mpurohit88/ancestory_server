@@ -1,4 +1,6 @@
+
 const {dbconnect} = require('./mysqlConnect');
+
 
   function getWelcomeData(){
     return new Promise((resolve,reject)=>{
@@ -14,7 +16,9 @@ const {dbconnect} = require('./mysqlConnect');
       
       // })
       
+
       dbconnect(function(err,connection){
+
         if(err) throw err; //not connected!
 
         if(connection)console.log('connected', connection.threadId);

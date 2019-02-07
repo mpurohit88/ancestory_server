@@ -13,7 +13,11 @@ const {dbconnect} = require('./mysqlConnect');
       //     reject('error');
       //   }
       // });
+
+     
+
       dbconnect(function(err,connection){
+
         if(err) console.log(err); //not connected!
 
         if(connection){
